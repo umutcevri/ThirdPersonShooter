@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
 	}
 	
 	void Update() {
+		animator.SetBool("isAiming", Input.GetButton("Fire2"));
+
 		desiredJump |= Input.GetButtonDown("Jump");
         
 		inputX = Input.GetAxisRaw("Horizontal");
@@ -121,4 +123,6 @@ public class PlayerController : MonoBehaviour
 
         desiredJump = false;
 	}
+
+	void OnAnimatorMove() {}
 }
