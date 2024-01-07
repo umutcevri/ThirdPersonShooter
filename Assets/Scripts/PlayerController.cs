@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
 	bool grounded;
 	Vector3 moveAmount;
 	Rigidbody rb;
+
+	RaycastWeapon weapon;
 	
 	bool desiredJump;
 
@@ -41,12 +43,14 @@ public class PlayerController : MonoBehaviour
 	void Awake() {
 		//Cursor.lockState = CursorLockMode.Locked;
 		//Cursor.visible = false;
+		weapon = GetComponentInChildren<RaycastWeapon>();
 		rb = GetComponent<Rigidbody>();
 		playerCamera = camTransform.gameObject.GetComponent<PlayerCamera>();
 		animator = GetComponentInChildren<Animator>();
 	}
 	
 	void Update() {
+		
 		isAiming = Input.GetButton("Fire2");
 
 		if(isAiming)
@@ -62,6 +66,19 @@ public class PlayerController : MonoBehaviour
 
 		animator.SetBool("isAiming", isAiming);
 
+		if(Input.GetButtonDown("Fire1"))
+		{
+			weapon.StartFiring();
+		}
+		if(Input.GetButtonUp("Fire1"))
+		{
+			weapon.StopFiring();
+		}
+		if(weapon.isFiring)
+		{
+			weapon.UpdateFiring();
+		}
+		
 		desiredJump |= Input.GetButtonDown("Jump");
         
 		inputX = Input.GetAxisRaw("Horizontal");
